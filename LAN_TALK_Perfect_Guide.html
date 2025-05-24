@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAN_TALK Interactive Setup Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #2c3e50;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --gray-color: #95a5a6;
+            --white-color: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary-color);
+            background-color: #f5f7fa;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white-color);
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(30deg);
+            z-index: 1;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-container {
+            margin: 20px auto;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            box-shadow: var(--shadow);
+            outline: none;
+            transition: var(--transition);
+            padding-left: 50px;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+        }
+
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .progress-container {
+            background-color: var(--light-color);
+            border-radius: 10px;
+            height: 10px;
+            width: 100%;
+            margin: 30px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            height: 100%;
+            width: 0;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-text {
+            position: absolute;
+            right: 10px;
+            top: -25px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            font-weight: bold;
+        }
+
+        .setup-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .setup-nav-item {
+            flex: 1;
+            min-width: 150px;
+            background-color: var(--white-color);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .setup-nav-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .setup-nav-item.active {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+
+        .setup-nav-item.completed::after {
+            content: '✓';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--success-color);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .setup-nav-item i {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card {
+            background-color: var(--white-color);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .card-header:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-header h2 i {
+            margin-right: 10px;
+        }
+
+        .card-body {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+        }
+
+        .card.active .card-body {
+            padding: 30px;
+            max-height: 2000px;
+        }
+
+        .step {
+            display: flex;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -15px;
+            width: 2px;
+            background-color: var(--primary-color);
+            opacity: 0.3;
+        }
+
+        .step-number {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-content {
+            flex-grow: 1;
+        }
+
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        .code-block {
+            background-color: var(--secondary-color);
+            color: var(--light-color);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            position: relative;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .copy-btn i {
+            margin-right: 5px;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .tab-container {
+            margin: 20px 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            background-color: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .tab-button i {
+            margin-right: 8px;
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            background-color: #fafafa;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .note, .tip, .warning {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .note::before, .tip::before, .warning::before {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .note {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .note::before {
+            content: "\f05a";
+            color: var(--primary-color);
+        }
+
+        .tip {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .tip::before {
+            content: "\f0eb";
+            color: var(--success-color);
+        }
+
+        .warning {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .warning::before {
+            content: "\f071";
+            color: var(--danger-color);
+        }
+
+        .checklist {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            margin-bottom: 15px;
+            padding-left: 35px;
+            position: relative;
+        }
+
+        .checklist li::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background-color: var(--white-color);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .feature-title {
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .feature-card ul {
+            padding-left: 20px;
+        }
+
+        .feature-card ul li {
+            margin-bottom: 10px;
+        }
+
+        .feature-card .btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--dark-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: #219653;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 5px 15px;
+            font-size: 0.9rem;
+        }
+
+        .btn-lg {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .setup-checklist {
+            background-color: var(--white-color);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .setup-checklist h2 {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .setup-checklist h2 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .checklist-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .checklist-checkbox {
+            margin-right: 15px;
+            width: 22px;
+            height: 22px;
+            border-radius: 5px;
+            border: 2px solid var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .checklist-checkbox.checked {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .checklist-label {
+            flex-grow: 1;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .checklist-item.completed .checklist-label {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .demo-gif {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin: 20px 0;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .screenshot {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin: 20px 0;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .screenshot:hover {
+            transform: scale(1.02);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .social-link {
+            color: var(--white-color);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-nav a {
+            color: var(--light-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .setup-nav-item {
+                min-width: 120px;
+                padding: 10px;
+            }
+            
+            .card-header h2 {
+                font-size: 1.1rem;
+            }
+            
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                margin-bottom: 10px;
+            }
+            
+            .step:not(:last-child)::after {
+                display: none;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .setup-nav {
+                flex-direction: column;
+            }
+            
+            .setup-nav-item {
+                width: 100%;
+            }
+            
+            .card-header {
+                padding: 15px;
+            }
+            
+            .card.active .card-body {
+                padding: 20px;
+            }
+            
+            .tab-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .tab-button {
+                flex: 1 0 50%;
+            }
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.5s forwards;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1a1a2e;
+            color: #e6e6e6;
+        }
+
+        body.dark-mode .card,
+        body.dark-mode .feature-card,
+        body.dark-mode .setup-checklist,
+        body.dark-mode .setup-nav-item,
+        body.dark-mode .search-input {
+            background-color: #16213e;
+            color: #e6e6e6;
+        }
+
+        body.dark-mode .card-header {
+            background-color: #0f3460;
+        }
+
+        body.dark-mode .tab-button {
+            background-color: #16213e;
+            color: #e6e6e6;
+        }
+
+        body.dark-mode .tab-button.active {
+            background-color: #0f3460;
+        }
+
+        body.dark-mode .tab-content {
+            background-color: #16213e;
+            border-color: #0f3460;
+            color: #e6e6e6;
+        }
+
+        body.dark-mode .code-block {
+            background-color: #0a0a23;
+        }
+
+        body.dark-mode .note {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        body.dark-mode .tip {
+            background-color: rgba(39, 174, 96, 0.1);
+        }
+
+        body.dark-mode .warning {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        body.dark-mode .checklist-item {
+            border-bottom-color: #2c3e50;
+        }
+
+        /* Print styles */
+        @media print {
+            .dark-mode-toggle,
+            .back-to-top,
+            .copy-btn,
+            .search-container {
+                display: none !important;
+            }
+
+            .card .card-body {
+                max-height: none !important;
+                padding: 30px !important;
+                display: block !important;
+            }
+
+            .tab-content {
+                display: block !important;
+            }
+
+            header,
+            footer {
+                background: none !important;
+                color: black !important;
+            }
+
+            body {
+                background-color: white !important;
+                color: black !important;
+            }
+
+            a {
+                color: black !important;
+                text-decoration: underline !important;
+            }
+
+            .feature-card,
+            .card,
+            .setup-checklist {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+
+            .card-header {
+                background-color: #f1f1f1 !important;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-comments"></i> LAN_TALK Interactive Setup Guide</h1>
+            <p>A comprehensive guide to set up and explore your offline LAN communication platform</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search for steps, features, or commands...">
+        </div>
+
+        <div class="main-content">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-text">0% Complete</div>
+                </div>
+            </div>
+
+            <div class="setup-nav" id="setupNav">
+                <div class="setup-nav-item" data-section="prerequisites">
+                    <i class="fas fa-clipboard-check"></i>
+                    Prerequisites
+                </div>
+                <div class="setup-nav-item" data-section="installation">
+                    <i class="fas fa-download"></i>
+                    Installation
+                </div>
+                <div class="setup-nav-item" data-section="database">
+                    <i class="fas fa-database"></i>
+                    Database
+                </div>
+                <div class="setup-nav-item" data-section="server">
+                    <i class="fas fa-server"></i>
+                    Server
+                </div>
+                <div class="setup-nav-item" data-section="features">
+                    <i class="fas fa-star"></i>
+                    Features
+                </div>
+                <div class="setup-nav-item" data-section="testing">
+                    <i class="fas fa-vial"></i>
+                    Testing
+                </div>
+                <div class="setup-nav-item" data-section="troubleshooting">
+                    <i class="fas fa-wrench"></i>
+                    Troubleshooting
+                </div>
+            </div>
+
+            <div id="prerequisites" class="card active">
+                <div class="card-header" onclick="toggleCard(this.parentElement)">
+                    <h2><i class="fas fa-clipboard-check"></i> 1. Prerequisites</h2>
+                    <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="card-body">
+                    <p>Before you begin, make sure you have the following installed on your system:</p>
+                    <ul class="checklist">
+                        <li>Python 3.8 or higher</li>
+                        <li>pip (Python package manager)</li>
+                        <li>Git (optional, for version control)</li>
+                        <li>A modern web browser (Chrome, Firefox, Edge, etc.)</li>
+                    </ul>
+
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Check Python Version</div>
+                            <p>Verify your Python installation by running the following command in your terminal:</p>
+                            <div class="code-block">
+                                <pre>python --version</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <p>You should see output like <code>Python 3.8.10</code> or higher.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Check pip Installation</div>
+                            <p>Verify pip is installed:</p>
+                            <div class="code-block">
+                                <pre>pip --version</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Install Required System Packages</div>
+                            <div class="tab-container">
+                                <div class="tab-buttons">
+                                    <button class="tab-button active" onclick="openTab(event, 'windows-packages')"><i class="fab fa-windows"></i> Windows</button>
+                                    <button class="tab-button" onclick="openTab(event, 'macos-packages')"><i class="fab fa-apple"></i> macOS</button>
+                                    <button class="tab-button" onclick="openTab(event, 'linux-packages')"><i class="fab fa-linux"></i> Linux</button>
+                                </div>
+                                <div id="windows-packages" class="tab-content active">
+                                    <p>Windows users typically don't need additional packages. Just make sure you have Python installed from <a href="https://www.python.org/downloads/" target="_blank">python.org</a>.</p>
+                                </div>
+                                <div id="macos-packages" class="tab-content">
+                                    <p>Install required packages using Homebrew:</p>
+                                    <div class="code-block">
+                                        <pre>brew install python</pre>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                                    </div>
+                                </div>
+                                <div id="linux-packages" class="tab-content">
+                                    <p>Install required packages:</p>
+                                    <div class="code-block">
+                                        <pre>sudo apt update
+sudo apt install python3 python3-pip python3-venv</pre>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tip">
+                        <strong>Tip:</strong> Using a virtual environment is highly recommended to avoid conflicts with other Python projects.
+                    </div>
+
+                    <button class="btn btn-success" onclick="markSectionComplete('prerequisites')"><i class="fas fa-check"></i> Mark Prerequisites Complete</button>
+                </div>
+            </div>
+
+            <div id="installation" class="card">
+                <div class="card-header" onclick="toggleCard(this.parentElement)">
+                    <h2><i class="fas fa-download"></i> 2. Installation</h2>
+                    <span class="toggle-icon"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="card-body">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Extract the ZIP File</div>
+                            <p>Extract the LAN_TALK.zip file you received to a location on your computer.</p>
+                            <img src="https://i.imgur.com/JGpMPAE.gif" alt="Extracting ZIP file" class="demo-gif">
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Navigate to the Project Directory</div>
+                            <div class="tab-container">
+                                <div class="tab-buttons">
+                                    <button class="tab-button active" onclick="openTab(event, 'windows-nav')"><i class="fab fa-windows"></i> Windows</button>
+                                    <button class="tab-button" onclick="openTab(event, 'unix-nav')"><i class="fas fa-terminal"></i> macOS/Linux</button>
+                                </div>
+                                <div id="windows-nav" class="tab-content active">
+                                    <div class="code-block">
+                                        <pre>cd path\to\LAN_TALK</pre>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                                    </div>
+                                </div>
+                                <div id="unix-nav" class="tab-content">
+                                    <div class="code-block">
+                                        <pre>cd path/to/LAN_TALK</pre>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Create a Virtual Environment</div>
+                            <div class="tab-container">
+                                <div class="tab-buttons">
+                                    <button class="tab-button active" onclick="openTab(event, 'windows-venv')"><i class="fab fa-windows"></i> Windows</button>
+                                    <button class="tab-button" onclick="openTab(event, 'unix-venv')"><i class="fas fa-terminal"></i> macOS/Linux</button>
+                                </div>
+                                <div id="windows-venv" class="tab-content active">
+                                    <div class="code-block">
+                                        <pre>python -m venv venv
+venv\Scripts\activate</pre>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                                    </div>
+                                    <p>You should see <code>(venv)</code> appear at the beginning of your command prompt.</p>
+                                </div>
+                                <div id="unix-venv" class="tab-content">
+                                    <div class="code-block">
+                                        <pre>python -m venv venv
+source venv/bin/activate</pre>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                                    </div>
+                                    <p>You should see <code>(venv)</code> appear at the beginning of your command prompt.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Install Dependencies</div>
+                            <div class="code-block">
+                                <pre>pip install -r requirements.txt</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <div class="note">
+                                <strong>Note:</strong> This may take a few minutes depending on your internet connection. The command will download and install all required Python packages.
+                            </div>
+                            <p>You should see output showing the installation progress of various packages including Django, Channels, and other dependencies.</p>
+                        </div>
+                    </div>
+
+                    <div class="warning">
+                        <strong>Important:</strong> Always activate the virtual environment before running any commands related to the project. You'll need to reactivate it each time you open a new terminal window.
+                    </div>
+
+                    <button class="btn btn-success" onclick="markSectionComplete('installation')"><i class="fas fa-check"></i> Mark Installation Complete</button>
+                </div>
+            </div>
+
+            <div id="database" class="card">
+                <div class="card-header" onclick="toggleCard(this.parentElement)">
+                    <h2><i class="fas fa-database"></i> 3. Database Setup</h2>
+                    <span class="toggle-icon"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="card-body">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Apply Database Migrations</div>
+                            <p>Run the following command to set up the SQLite database:</p>
+                            <div class="code-block">
+                                <pre>python manage.py migrate</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <p>This command creates all necessary database tables for users, chat rooms, messages, and file sharing.</p>
+                            <div class="note">
+                                <strong>Note:</strong> You should see output showing migrations being applied for various Django apps.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Create an Admin Superuser</div>
+                            <p>Create an administrator account to access the admin panel:</p>
+                            <div class="code-block">
+                                <pre>python manage.py createsuperuser</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <p>Follow the prompts to enter a username, email address, and password for the admin account.</p>
+                            <div class="tip">
+                                <strong>Tip:</strong> Choose a strong password but make sure to remember it! This account will have full access to the admin panel.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Database Configuration (Optional)</div>
+                            <p>By default, LAN_TALK uses SQLite for simplicity. If you want to use a different database like PostgreSQL or MySQL, you can modify the <code>.env</code> file:</p>
+                            <div class="code-block">
+                                <pre># Example PostgreSQL configuration in .env
+DATABASE_ENGINE=django.db.backends.postgresql
+DATABASE_NAME=lantalk
+DATABASE_USER=postgres
+DATABASE_PASSWORD=yourpassword
+DATABASE_HOST=localhost
+DATABASE_PORT=5432</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <div class="warning">
+                                <strong>Warning:</strong> Using a different database requires additional setup and installing the appropriate database adapter. For most LAN deployments, the default SQLite is sufficient.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success" onclick="markSectionComplete('database')"><i class="fas fa-check"></i> Mark Database Setup Complete</button>
+                </div>
+            </div>
+
+            <div id="server" class="card">
+                <div class="card-header" onclick="toggleCard(this.parentElement)">
+                    <h2><i class="fas fa-server"></i> 4. Running the Server</h2>
+                    <span class="toggle-icon"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="card-body">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Start the Development Server</div>
+                            <p>Run the following command to start the Django development server:</p>
+                            <div class="code-block">
+                                <pre>python manage.py runserver 0.0.0.0:8000</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <div class="tip">
+                                <strong>Tip:</strong> Using <code>0.0.0.0</code> as the host allows other devices on your LAN to access the application. The port <code>8000</code> can be changed if needed.
+                            </div>
+                            <p>You should see output indicating that the server is running, similar to:</p>
+                            <div class="code-block">
+                                <pre>Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Access the Application</div>
+                            <p>You can now access LAN_TALK in your web browser:</p>
+                            <ul>
+                                <li>On your computer: <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></li>
+                                <li>From other devices on your LAN: <code>http://YOUR_IP_ADDRESS:8000</code></li>
+                            </ul>
+                            
+                            <div class="tab-container">
+                                <div class="tab-buttons">
+                                    <button class="tab-button active" onclick="openTab(event, 'windows-ip')"><i class="fab fa-windows"></i> Windows</button>
+                                    <button class="tab-button" onclick="openTab(event, 'macos-ip')"><i class="fab fa-apple"></i> macOS</button>
+                                    <button class="tab-button" onclick="openTab(event, 'linux-ip')"><i class="fab fa-linux"></i> Linux</button>
+                                </div>
+                                <div id="windows-ip" class="tab-content active">
+                                    <p>Find your IP address by running:</p>
+                                    <div class="code-block">
+                                        <pre>ipconfig</pre>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                                    </div>
+                                    <p>Look for the IPv4 Address under your active network adapter (usually "Wireless LAN adapter Wi-Fi" or "Ethernet adapter").</p>
+                                </div>
+                                <div id="macos-ip" class="tab-content">
+                                    <p>Find your IP address by running:</p>
+                                    <div class="code-block">
+                                        <pre>ifconfig | grep "inet " | grep -v 127.0.0.1</pre>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                                    </div>
+                                    <p>Look for the inet address that's not 127.0.0.1.</p>
+                                </div>
+                                <div id="linux-ip" class="tab-content">
+                                    <p>Find your IP address by running:</p>
+                                    <div class="code-block">
+                                        <pre>ip addr show | grep "inet " | grep -v 127.0.0.1</pre>
+                                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                                    </div>
+                                    <p>Look for the inet address that's not 127.0.0.1.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Login or Register</div>
+                            <p>When you first access the application, you'll be redirected to the login page. You can:</p>
+                            <ul>
+                                <li>Login with the admin account you created earlier</li>
+                                <li>Click "Register" to create a new user account</li>
+                            </ul>
+                            <img src="https://i.imgur.com/XYZ123.jpg" alt="LAN_TALK Login Page" class="screenshot" onclick="openImageModal(this.src)">
+                        </div>
+                    </div>
+
+                    <div class="warning">
+                        <strong>Important:</strong> The development server is not suitable for production use. For a more permanent deployment, consider using Daphne or other ASGI servers with proper security configurations.
+                    </div>
+
+                    <button class="btn btn-success" onclick="markSectionComplete('server')"><i class="fas fa-check"></i> Mark Server Setup Complete</button>
+                </div>
+            </div>
+
+            <div id="features" class="card">
+                <div class="card-header" onclick="toggleCard(this.parentElement)">
+                    <h2><i class="fas fa-star"></i> 5. Key Features to Explore</h2>
+                    <span class="toggle-icon"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="card-body">
+                    <p>LAN_TALK comes with a rich set of features designed for local network communication. Here's what you can explore:</p>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="feature-title">Real-time Chat</div>
+                            <ul>
+                                <li>Register two accounts (using different browsers or incognito windows)</li>
+                                <li>See online users instantly appear on the dashboard</li>
+                                <li>Start a chat and watch messages appear in real-time</li>
+                                <li>Check message timestamps and delivery status</li>
+                            </ul>
+                            <a href="#chat-demo" class="btn btn-outline"><i class="fas fa-play-circle"></i> View Demo</a>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div class="feature-title">Voice & Video Calls</div>
+                            <ul>
+                                <li>From the dashboard, initiate a voice or video call</li>
+                                <li>Experience peer-to-peer WebRTC communication</li>
+                                <li>Test call controls (mute, video toggle, end call)</li>
+                                <li>Try both voice-only and video call options</li>
+                            </ul>
+                            <a href="#call-demo" class="btn btn-outline"><i class="fas fa-play-circle"></i> View Demo</a>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-file-upload"></i>
+                            </div>
+                            <div class="feature-title">File Sharing</div>
+                            <ul>
+                                <li>Upload files to share with specific users</li>
+                                <li>Set expiration times for sensitive files</li>
+                                <li>Download shared files from your file dashboard</li>
+                                <li>Manage file permissions and access</li>
+                            </ul>
+                            <a href="#file-demo" class="btn btn-outline"><i class="fas fa-play-circle"></i> View Demo</a>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <div class="feature-title">LAN Discovery</div>
+                            <ul>
+                                <li>See which users are online in your local network</li>
+                                <li>Watch status updates in real-time</li>
+                                <li>Run the scan_lan command to find users:</li>
+                                <li><code>python manage.py scan_lan</code></li>
+                            </ul>
+                            <a href="#lan-demo" class="btn btn-outline"><i class="fas fa-play-circle"></i> View Demo</a>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="feature-title">Admin Panel</div>
+                            <ul>
+                                <li>Access <a href="http://localhost:8000/admin/dashboard/" target="_blank">http://localhost:8000/admin/dashboard/</a></li>
+                                <li>View analytics on users, messages, and file sharing</li>
+                                <li>Manage users (ban, delete, promote to admin)</li>
+                                <li>Monitor system activity and performance</li>
+                            </ul>
+                            <a href="#admin-demo" class="btn btn-outline"><i class="fas fa-play-circle"></i> View Demo</a>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="feature-title">Responsive Design</div>
+                            <ul>
+                                <li>Test the application on different devices</li>
+                                <li>Experience the responsive layout on mobile</li>
+                                <li>Use the application on tablets and desktops</li>
+                                <li>Enjoy consistent UI across all screen sizes</li>
+                            </ul>
+                            <a href="#responsive-demo" class="btn btn-outline"><i class="fas fa-play-circle"></i> View Demo</a>
+                        </div>
+                    </div>
+
+                    <div id="chat-demo" class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Real-time Chat Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+
+                    <div id="call-demo" class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Voice & Video Call Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+
+                    <div id="file-demo" class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="File Sharing Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+
+                    <div id="lan-demo" class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="LAN Discovery Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+
+                    <div id="admin-demo" class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Admin Panel Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+
+                    <div id="responsive-demo" class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Responsive Design Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+
+                    <button class="btn btn-success" onclick="markSectionComplete('features')"><i class="fas fa-check"></i> Mark Features Explored</button>
+                </div>
+            </div>
+
+            <div id="testing" class="card">
+                <div class="card-header" onclick="toggleCard(this.parentElement)">
+                    <h2><i class="fas fa-vial"></i> 6. Testing with Multiple Users</h2>
+                    <span class="toggle-icon"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="card-body">
+                    <p>To fully experience LAN_TALK's real-time features, you'll want to test with multiple users. Here are some approaches:</p>
+                    
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Using Different Browsers</div>
+                            <p>The simplest way to test with multiple users is to use different web browsers simultaneously:</p>
+                            <ul>
+                                <li>Open Chrome and log in with one account</li>
+                                <li>Open Firefox and log in with another account</li>
+                                <li>Open Edge or Safari and log in with a third account</li>
+                            </ul>
+                            <div class="tip">
+                                <strong>Tip:</strong> This method allows you to test chat, calls, and file sharing between different users on the same computer.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Using Incognito/Private Windows</div>
+                            <p>Another approach is to use incognito or private browsing windows in the same browser:</p>
+                            <div class="tab-container">
+                                <div class="tab-buttons">
+                                    <button class="tab-button active" onclick="openTab(event, 'chrome-incognito')"><i class="fab fa-chrome"></i> Chrome</button>
+                                    <button class="tab-button" onclick="openTab(event, 'firefox-private')"><i class="fab fa-firefox"></i> Firefox</button>
+                                    <button class="tab-button" onclick="openTab(event, 'edge-inprivate')"><i class="fab fa-edge"></i> Edge</button>
+                                </div>
+                                <div id="chrome-incognito" class="tab-content active">
+                                    <p>Open an incognito window with <code>Ctrl+Shift+N</code> (Windows/Linux) or <code>⌘+Shift+N</code> (macOS)</p>
+                                </div>
+                                <div id="firefox-private" class="tab-content">
+                                    <p>Open a private window with <code>Ctrl+Shift+P</code> (Windows/Linux) or <code>⌘+Shift+P</code> (macOS)</p>
+                                </div>
+                                <div id="edge-inprivate" class="tab-content">
+                                    <p>Open an InPrivate window with <code>Ctrl+Shift+N</code> (Windows) or <code>⌘+Shift+N</code> (macOS)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Using Different Devices on Your LAN</div>
+                            <p>For the most realistic testing, use multiple devices on your local network:</p>
+                            <ol>
+                                <li>Keep the server running on your computer</li>
+                                <li>Connect other devices (laptops, tablets, smartphones) to the same WiFi network</li>
+                                <li>On each device, open a browser and navigate to <code>http://YOUR_COMPUTER_IP:8000</code></li>
+                                <li>Log in with different accounts on each device</li>
+                            </ol>
+                            <div class="note">
+                                <strong>Note:</strong> This method is ideal for testing LAN discovery and WebRTC calls between actual devices.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Testing LAN Discovery</div>
+                            <p>To test the LAN discovery feature, run the following command in a new terminal window (with the virtual environment activated):</p>
+                            <div class="code-block">
+                                <pre>python manage.py scan_lan</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <p>This command will scan your local network for other LAN_TALK users and display their status.</p>
+                        </div>
+                    </div>
+
+                    <div class="warning">
+                        <strong>Important:</strong> For WebRTC calls to work properly between different devices, they must be on the same local network. Internet-based WebRTC calls would require additional TURN server configuration.
+                    </div>
+
+                    <button class="btn btn-success" onclick="markSectionComplete('testing')"><i class="fas fa-check"></i> Mark Testing Complete</button>
+                </div>
+            </div>
+
+            <div id="troubleshooting" class="card">
+                <div class="card-header" onclick="toggleCard(this.parentElement)">
+                    <h2><i class="fas fa-wrench"></i> 7. Troubleshooting</h2>
+                    <span class="toggle-icon"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="card-body">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">404 Error on Root URL</div>
+                            <p>If you encounter a 404 error when accessing the root URL:</p>
+                            <ul>
+                                <li>Make sure you're using the latest code with the root URL redirect</li>
+                                <li>Check that the server is running properly</li>
+                                <li>Try accessing <code>/login/</code> directly</li>
+                            </ul>
+                            <div class="code-block">
+                                <pre># Check if the root URL redirect is properly configured in lan_talk/urls.py
+path('', RedirectView.as_view(url='login/', permanent=False))</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">WebSocket Connection Issues</div>
+                            <p>If real-time features aren't working:</p>
+                            <ul>
+                                <li>Ensure you're using a modern browser with WebSocket support</li>
+                                <li>Check firewall settings if connecting from different devices</li>
+                                <li>Verify that the Channels and Daphne packages are installed</li>
+                            </ul>
+                            <div class="code-block">
+                                <pre># Verify Channels installation
+pip show channels
+
+# Check if Redis is properly configured (if using channels_redis)
+pip show channels_redis</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <div class="tip">
+                                <strong>Tip:</strong> Check the browser console (F12) for any WebSocket connection errors.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Database Errors</div>
+                            <p>If you encounter database-related errors, you can reset the database:</p>
+                            <div class="code-block">
+                                <pre># Reset the database
+python manage.py flush
+
+# Re-apply migrations
+python manage.py migrate
+
+# Create a new superuser
+python manage.py createsuperuser</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <div class="warning">
+                                <strong>Warning:</strong> The <code>flush</code> command will delete all data in the database. Use with caution!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">WebRTC Call Problems</div>
+                            <p>If voice or video calls aren't working:</p>
+                            <ul>
+                                <li>Allow camera/microphone permissions when prompted</li>
+                                <li>Test with different browsers if issues persist</li>
+                                <li>Ensure both users are on the same LAN for direct connections</li>
+                            </ul>
+                            <div class="code-block">
+                                <pre># Check WebRTC configuration in .env file
+STUN_SERVERS=stun:stun.l.google.com:19302,stun:stun1.l.google.com:19302</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <div class="tip">
+                                <strong>Tip:</strong> WebRTC requires proper STUN servers for NAT traversal. The default configuration should work for most LAN setups.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title">Server Won't Start</div>
+                            <p>If the Django server won't start:</p>
+                            <ul>
+                                <li>Check if another process is already using port 8000</li>
+                                <li>Verify that all dependencies are installed</li>
+                                <li>Check for syntax errors in your code</li>
+                            </ul>
+                            <div class="code-block">
+                                <pre># Check if port 8000 is in use (Windows)
+netstat -ano | findstr :8000
+
+# Check if port 8000 is in use (macOS/Linux)
+lsof -i :8000
+
+# Try a different port
+python manage.py runserver 0.0.0.0:8080</pre>
+                                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <div class="step-title">Getting Help</div>
+                            <p>If you encounter issues not covered here:</p>
+                            <ul>
+                                <li>Check the Django documentation: <a href="https://docs.djangoproject.com/" target="_blank">https://docs.djangoproject.com/</a></li>
+                                <li>Check the Django Channels documentation: <a href="https://channels.readthedocs.io/" target="_blank">https://channels.readthedocs.io/</a></li>
+                                <li>Search for specific error messages online</li>
+                                <li>Check the project's README.md file for additional information</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success" onclick="markSectionComplete('troubleshooting')"><i class="fas fa-check"></i> Mark Troubleshooting Complete</button>
+                </div>
+            </div>
+
+            <div class="setup-checklist">
+                <h2><i class="fas fa-tasks"></i> Setup Checklist</h2>
+                <div class="checklist-item" id="check-prerequisites">
+                    <div class="checklist-checkbox" onclick="toggleChecklistItem('check-prerequisites')"></div>
+                    <div class="checklist-label" onclick="toggleChecklistItem('check-prerequisites')">Verify prerequisites (Python, pip)</div>
+                </div>
+                <div class="checklist-item" id="check-extract">
+                    <div class="checklist-checkbox" onclick="toggleChecklistItem('check-extract')"></div>
+                    <div class="checklist-label" onclick="toggleChecklistItem('check-extract')">Extract LAN_TALK.zip file</div>
+                </div>
+                <div class="checklist-item" id="check-venv">
+                    <div class="checklist-checkbox" onclick="toggleChecklistItem('check-venv')"></div>
+                    <div class="checklist-label" onclick="toggleChecklistItem('check-venv')">Create and activate virtual environment</div>
+                </div>
+                <div class="checklist-item" id="check-dependencies">
+                    <div class="checklist-checkbox" onclick="toggleChecklistItem('check-dependencies')"></div>
+                    <div class="checklist-label" onclick="toggleChecklistItem('check-dependencies')">Install dependencies</div>
+                </div>
+                <div class="checklist-item" id="check-migrate">
+                    <div class="checklist-checkbox" onclick="toggleChecklistItem('check-migrate')"></div>
+                    <div class="checklist-label" onclick="toggleChecklistItem('check-migrate')">Apply database migrations</div>
+                </div>
+                <div class="checklist-item" id="check-superuser">
+                    <div class="checklist-checkbox" onclick="toggleChecklistItem('check-superuser')"></div>
+                    <div class="checklist-label" onclick="toggleChecklistItem('check-superuser')">Create admin superuser</div>
+                </div>
+                <div class="checklist-item" id="check-server">
+                    <div class="checklist-checkbox" onclick="toggleChecklistItem('check-server')"></div>
+                    <div class="checklist-label" onclick="toggleChecklistItem('check-server')">Start the development server</div>
+                </div>
+                <div class="checklist-item" id="check-access">
+                    <div class="checklist-checkbox" onclick="toggleChecklistItem('check-access')"></div>
+                    <div class="checklist-label" onclick="toggleChecklistItem('check-access')">Access the application in browser</div>
+                </div>
+                <div class="checklist-item" id="check-test">
+                    <div class="checklist-checkbox" onclick="toggleChecklistItem('check-test')"></div>
+                    <div class="checklist-label" onclick="toggleChecklistItem('check-test')">Test with multiple users</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <span class="modal-close" onclick="closeImageModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>LAN_TALK - A comprehensive offline LAN communication platform</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            </div>
+            
+            <div class="footer-nav">
+                <a href="#">Home</a>
+                <a href="#">Documentation</a>
+                <a href="#">Support</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            
+            <p class="copyright">&copy; 2025 LAN_TALK. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Store setup progress in localStorage
+        let setupProgress = JSON.parse(localStorage.getItem('lantalkSetupProgress')) || {
+            prerequisites: false,
+            installation: false,
+            database: false,
+            server: false,
+            features: false,
+            testing: false,
+            troubleshooting: false
+        };
+
+        // Store checklist items in localStorage
+        let checklistItems = JSON.parse(localStorage.getItem('lantalkChecklistItems')) || {
+            'check-prerequisites': false,
+            'check-extract': false,
+            'check-venv': false,
+            'check-dependencies': false,
+            'check-migrate': false,
+            'check-superuser': false,
+            'check-server': false,
+            'check-access': false,
+            'check-test': false
+        };
+
+        // Initialize dark mode from localStorage
+        const darkMode = localStorage.getItem('lantalkDarkMode') === 'true';
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // Toggle dark mode
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('lantalkDarkMode', isDarkMode);
+            this.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        // Toggle card expansion
+        function toggleCard(card) {
+            card.classList.toggle('active');
+            const header = card.querySelector('.card-header');
+            const icon = header.querySelector('.toggle-icon i');
+            
+            if (card.classList.contains('active')) {
+                icon.className = 'fas fa-chevron-down';
+            } else {
+                icon.className = 'fas fa-chevron-right';
+            }
+            
+            updateProgress();
+        }
+        
+        // Copy code to clipboard
+        function copyCode(button) {
+            const codeBlock = button.parentElement;
+            const code = codeBlock.querySelector('pre').textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.backgroundColor = '#27ae60';
+                
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.style.backgroundColor = '';
+                }, 2000);
+            });
+        }
+        
+        // Tab functionality
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            const tabButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Mark section as complete
+        function markSectionComplete(section) {
+            setupProgress[section] = true;
+            localStorage.setItem('lantalkSetupProgress', JSON.stringify(setupProgress));
+            
+            // Update nav item
+            const navItem = document.querySelector(`.setup-nav-item[data-section="${section}"]`);
+            navItem.classList.add('completed');
+            
+            // Update progress
+            updateProgress();
+            
+            // Show success message
+            alert(`${section.charAt(0).toUpperCase() + section.slice(1)} section completed! Progress saved.`);
+        }
+        
+        // Toggle checklist item
+        function toggleChecklistItem(itemId) {
+            const item = document.getElementById(itemId);
+            const checkbox = item.querySelector('.checklist-checkbox');
+            
+            checklistItems[itemId] = !checklistItems[itemId];
+            localStorage.setItem('lantalkChecklistItems', JSON.stringify(checklistItems));
+            
+            if (checklistItems[itemId]) {
+                checkbox.classList.add('checked');
+                checkbox.innerHTML = '<i class="fas fa-check"></i>';
+                item.classList.add('completed');
+            } else {
+                checkbox.classList.remove('checked');
+                checkbox.innerHTML = '';
+                item.classList.remove('completed');
+            }
+            
+            updateProgress();
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            // Calculate progress from sections
+            const totalSections = Object.keys(setupProgress).length;
+            const completedSections = Object.values(setupProgress).filter(value => value).length;
+            
+            // Calculate progress from checklist
+            const totalChecklist = Object.keys(checklistItems).length;
+            const completedChecklist = Object.values(checklistItems).filter(value => value).length;
+            
+            // Combined progress (weighted)
+            const sectionsWeight = 0.6;
+            const checklistWeight = 0.4;
+            
+            const sectionsProgress = (completedSections / totalSections) * sectionsWeight;
+            const checklistProgress = (completedChecklist / totalChecklist) * checklistWeight;
+            
+            const totalProgress = Math.round((sectionsProgress + checklistProgress) * 100);
+            
+            // Update progress bar
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = totalProgress + '%';
+            progressBar.querySelector('.progress-text').textContent = totalProgress + '% Complete';
+        }
+        
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            if (searchTerm.length < 2) {
+                // Reset all cards if search term is too short
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.display = 'block';
+                });
+                return;
+            }
+            
+            document.querySelectorAll('.card').forEach(card => {
+                const cardText = card.textContent.toLowerCase();
+                const cardHeader = card.querySelector('.card-header h2').textContent.toLowerCase();
+                
+                if (cardText.includes(searchTerm) || cardHeader.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    if (!card.classList.contains('active')) {
+                        toggleCard(card);
+                    }
+                    
+                    // Highlight search term
+                    const regex = new RegExp(searchTerm, 'gi');
+                    const cardBody = card.querySelector('.card-body');
+                    cardBody.innerHTML = cardBody.innerHTML.replace(/<mark class="search-highlight">([^<]+)<\/mark>/gi, '$1');
+                    cardBody.innerHTML = cardBody.innerHTML.replace(regex, match => `<mark class="search-highlight">${match}</mark>`);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // Navigation menu
+        document.querySelectorAll('.setup-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const section = this.getAttribute('data-section');
+                const targetCard = document.getElementById(section);
+                
+                // Remove active class from all nav items
+                document.querySelectorAll('.setup-nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                
+                // Add active class to clicked nav item
+                this.classList.add('active');
+                
+                // Scroll to target card
+                targetCard.scrollIntoView({ behavior: 'smooth' });
+                
+                // Expand card if it's not already expanded
+                if (!targetCard.classList.contains('active')) {
+                    toggleCard(targetCard);
+                }
+            });
+        });
+        
+        // Back to top button
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Image modal
+        function openImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'flex';
+            modalImg.src = src;
+        }
+        
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+        
+        // Initialize setup progress
+        function initSetupProgress() {
+            // Update nav items
+            Object.keys(setupProgress).forEach(section => {
+                if (setupProgress[section]) {
+                    const navItem = document.querySelector(`.setup-nav-item[data-section="${section}"]`);
+                    navItem.classList.add('completed');
+                }
+            });
+            
+            // Update checklist items
+            Object.keys(checklistItems).forEach(itemId => {
+                if (checklistItems[itemId]) {
+                    const item = document.getElementById(itemId);
+                    const checkbox = item.querySelector('.checklist-checkbox');
+                    checkbox.classList.add('checked');
+                    checkbox.innerHTML = '<i class="fas fa-check"></i>';
+                    item.classList.add('completed');
+                }
+            });
+            
+            // Update progress bar
+            updateProgress();
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initSetupProgress();
+            
+            // Add animation classes
+            document.querySelectorAll('.feature-card').forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('fade-in-up');
+                }, index * 100);
+            });
+            
+            // Add pulse animation to first uncompleted section
+            const firstUncompleted = Object.keys(setupProgress).find(key => !setupProgress[key]);
+            if (firstUncompleted) {
+                const navItem = document.querySelector(`.setup-nav-item[data-section="${firstUncompleted}"]`);
+                navItem.classList.add('pulse');
+            }
+        });
+    </script>
+</body>
+</html>
